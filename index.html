@@ -553,6 +553,7 @@ body[data-th=g3]{background:#070a1c}
 .top .tag{margin-left:auto;align-self:center}
 .top .tb{display:grid;place-items:center;width:38px;height:34px;padding:0!important;margin-left:6px;background:#161d45!important;color:#cfd8ff!important;box-shadow:inset 0 0 0 2px #2d3874}
 .top .tb svg{width:20px;height:20px}
+.top>button:first-child+.tb{margin-left:auto}
 [data-th=g3] .ings span.cur{box-shadow:inset 0 0 0 2px #fff;opacity:1}
 .m3{position:absolute;inset:0;z-index:20;display:grid;place-items:center;padding:18px;background:#05081acc;animation:in .25s ease}
 .m3b{width:min(100%,380px);background:#0d1230;box-shadow:0 0 0 3px #b8e600,0 20px 60px #000;padding:20px;display:flex;flex-direction:column;gap:12px}
@@ -822,7 +823,7 @@ function g3(){TH='g3';G3={lv:0,got:[]};h(`<div class="scr dg s-g3i">${hdr('Ко�
 function cellOf(g,c){for(let r=0;r<g.length;r++){const i=g[r].indexOf(c);if(i>=0)return[r,i]}}
 function lvl(){const L=LV[G3.lv];G3.A=cellOf(L.a,'S');G3.B=cellOf(L.b,'S');G3.hist=[];G3.moves=0;
  const grid=(g,kind)=>`<div class="grid ${kind}" style="grid-template-columns:repeat(${g[0].length},1fr)">${g.join('').split('').map(c=>`<div class="cell ${c=='#'?'w':c=='T'?'t':''}"></div>`).join('')}</div>`;
- h(`<div class="scr dg s-lvl">${hdr('',`<span class="tag">Раскладка ${G3.lv+1}/${LV.length}</span><button class="tb" onclick="undo()" aria-label="Ход назад" title="Ход назад">${svg(`<path d="M9 14L4 9l5-5" ${ST}/><path d="M4 9h10a6 6 0 0 1 0 12h-3" ${ST}/>`)}</button><button class="tb" onclick="lvl()" aria-label="Заново" title="Заново">${svg(`<path d="M20 12a8 8 0 1 1-2.3-5.6" ${ST}/><path d="M20 4v5h-5" ${ST}/>`)}</button>`)}
+ h(`<div class="scr dg s-lvl">${hdr('',`<button class="tb" onclick="undo()" aria-label="Ход назад" title="Ход назад">${svg(`<path d="M9 14L4 9l5-5" ${ST}/><path d="M4 9h10a6 6 0 0 1 0 12h-3" ${ST}/>`)}</button><button class="tb" onclick="lvl()" aria-label="Заново" title="Заново">${svg(`<path d="M20 12a8 8 0 1 1-2.3-5.6" ${ST}/><path d="M20 4v5h-5" ${ST}/>`)}</button>`)}
  <div class="col c2">
  <div class="hud"><div class="ings">${LV.map((l,i)=>`<span class="${G3.got.includes(i)?'on':''}${i===G3.lv?' cur':''}" title="${l.n}">${ING(l.ing)}</span>`).join('')}<span title="Оливье">${ING('olivier')}</span></div><div class="mc3"><small>ходы</small><b id="mcn">0</b><small>цель ${L.min}</small></div></div></div>
  <div class="col c1"><div class="boards" id="boards"><div class="bd"><div class="cap"><img src="assets/g3/packet.png" alt="">Цифровая система</div>${grid(L.a,'d')}</div><div class="bd"><div class="cap"><img src="assets/g3/cart.png" alt="">Склад и доставка</div>${grid(L.b,'w')}</div></div></div>
