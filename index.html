@@ -33,7 +33,7 @@ p{line-height:1.45;color:#d6d6da;font-size:15px}
 .snow i{position:absolute;top:-10px;width:4px;height:4px;border-radius:50%;background:#fff;opacity:.5;animation:fall linear infinite}
 @keyframes fall{to{transform:translateY(105vh)}}
 .scr>*{position:relative;z-index:1}
-.scr>*:not(.deck){flex-shrink:0}
+.scr>*:not(.deck),.scr>.col>*:not(.deck){flex-shrink:0}
 input[type=text],input[type=email],textarea{width:100%;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:14px;color:var(--fg);font:500 16px Onest,sans-serif;outline:none}
 input:focus,textarea:focus{border-color:var(--violet)}
 label.ck{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:#cfcfd4;cursor:pointer;line-height:1.35}
