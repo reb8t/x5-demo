@@ -1,0 +1,201 @@
+/* Шрифты Styrene — лицензионные, в репозиторий не кладём: берутся из системы (установить локально).
+   Если шрифта нет — запасной гротеск. */
+@font-face { font-family: "Styrene"; font-weight: 400; src: local("Styrene A LC Regular"), local("StyreneALC-Regular"); }
+@font-face { font-family: "Styrene"; font-weight: 500; src: local("Styrene A LC Medium"), local("StyreneALC-Medium"); }
+@font-face { font-family: "Styrene"; font-weight: 700; src: local("Styrene A LC Bold"), local("StyreneALC-Bold"); }
+@font-face { font-family: "Styrene MDFD"; font-weight: 900; src: local("Styrene A LC MDFD Black"), local("StyreneALC-MDFD-Black"); }
+
+:root {
+  --red: #ef3124;
+  --red-grad: linear-gradient(180deg, #ff5a47, #ef3124);
+  --cream: #fff6ee;
+  --peach: #fedfc2;
+  --white: #fafafa;
+  --ink: #000;
+  --gray: #5a4a40;
+  --violet: #6a4dff;
+  --gold-grad: linear-gradient(180deg, #ffb400, #e06a00);   /* Победные очки: плашка счёта (на светлом — насыщеннее) */
+  --violet-grad: linear-gradient(90deg, #6a4dff, #1f00bc);
+  --overlay: rgba(42, 10, 4, 0.55);
+  --feed: linear-gradient(266.7deg, #9933ff 43.4%, #5700ae 97.9%);
+  --play: linear-gradient(-90deg, #f1b700 37.5%, #d17d00 100%);
+  --talk: linear-gradient(270deg, #00e8f0 32.8%, #20c7cd 100%);
+  --font: "Styrene", "Helvetica Neue", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { margin: 0; height: 100%; }
+body { background: #2b1a14; font-family: var(--font); font-feature-settings: "ss01" 1; color: var(--ink); -webkit-font-smoothing: antialiased; }
+button { font: inherit; color: inherit; border: 0; padding: 0; background: none; cursor: pointer; }
+
+/* типографика */
+.t-display { font-family: "Styrene MDFD", var(--font); font-weight: 900; font-size: 32px; line-height: 1; }
+.t-title { font-weight: 700; font-size: 24px; line-height: 1.2; }
+.t-button { font-weight: 700; font-size: 16px; line-height: 1.3; }
+.t-body { font-weight: 400; font-size: 16px; line-height: 1.2; }
+.t-caption { font-weight: 500; font-size: 14px; line-height: 1.3; }
+.gray { color: var(--gray); }
+
+/* экран 393×852 — масштабируется под окно целиком */
+.viewport { position: fixed; inset: 0; display: grid; place-items: center; overflow: hidden; }
+.screen { position: relative; width: 393px; height: 852px; overflow: hidden; background: #fff; transform-origin: center; flex: none; }
+.abs { position: absolute; }
+
+.room { position: absolute; left: -51px; top: -156px; width: 786px; height: 786px; transform: scaleX(-1); object-fit: cover; }
+.push-canvas { position: absolute; left: -17px; top: 126px; width: 427px; height: 854px; cursor: pointer; }
+
+/* шапка */
+.round { position: absolute; top: 31px; width: 48px; height: 48px; border-radius: 100px; background: #fff; display: grid; place-items: center; }
+.round img { width: 32px; height: 32px; }
+.ic { position: relative; width: 28px; height: 28px; }
+.ic i { position: absolute; background: #212121; display: block; }
+.ic-menu { width: 32px; height: 32px; }
+
+.gift { position: absolute; left: 158px; top: 16px; width: 94px; height: 116px; }
+.gift-art { position: absolute; left: 8px; bottom: 30px; width: 78px; height: 78px; }
+.gift-art .star { position: absolute; left: -8px; top: -8px; width: 94px; height: 94px; }
+.gift-art .box { position: absolute; left: 8px; top: 7px; width: 61px; height: 59px; object-fit: cover; }
+.gift-pill { position: absolute; left: 0; bottom: 0; width: 94px; padding: 12px 8px; border-radius: 32px; background: #fff; color: var(--red); text-align: center; white-space: nowrap; }
+.gift-pill.claim { background: var(--red-grad); color: var(--white); }
+
+/* очки и место */
+.scorebar { position: absolute; left: 16px; display: flex; gap: 8px; align-items: center; }
+.chip { height: 56px; padding: 0 12px; border-radius: 100px; background: var(--cream); display: flex; gap: 4px; align-items: center; white-space: nowrap; }
+.chip img { width: 24px; height: 24px; }
+.chip .t-title { position: relative; top: 3px; }   /* у Styrene глифы сидят выше центра строки — оптически по центру плашки и звезды */
+.star-gold { width: 24px; height: 24px; flex: none; background: var(--gold-grad); -webkit-mask: url(/assets/star-points.svg) center / contain no-repeat; mask: url(/assets/star-points.svg) center / contain no-repeat; }
+.gold { background-image: var(--gold-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.bump { animation: bump .25s ease-out; }
+@keyframes bump { 50% { transform: scale(1.12); } }
+
+/* панель */
+.panel { position: absolute; left: 0; top: 552px; width: 393px; height: 300px; background: var(--peach); border-radius: 24px 24px 0 0; }
+.friend { position: absolute; left: 16px; top: 568px; width: 361px; height: 60px; }
+.friend .track { position: absolute; left: 17px; top: 14px; width: 344px; height: 32px; border-radius: 100px; background: #fff; }
+.friend .fill { position: absolute; left: 21px; top: 14px; height: 32px; border-radius: 100px; background: var(--violet); transition: width .5s; }
+.friend .star { position: absolute; left: -1px; top: 0; width: 60px; height: 60px; }
+.friend .heart { position: absolute; left: 6px; top: 6px; width: 48px; height: 48px; }
+.friend .lvl { position: absolute; left: 8px; top: 20px; width: 44px; text-align: center; color: #fff; }
+.friend .prog { position: absolute; left: 157px; top: 23px; }
+
+.stats { position: absolute; left: 16px; top: 644px; display: flex; gap: 8px; }
+.stat { width: 115px; display: flex; flex-direction: column; gap: 4px; }
+.stat .track { height: 24px; border-radius: 32px; background: #fff; overflow: hidden; }
+.stat .fill { height: 100%; border-radius: 32px; transition: width .5s; }
+
+.actions { position: absolute; left: 16px; top: 705px; display: flex; gap: 8px; }
+.act { width: 115px; height: 115px; border-radius: 24px; display: grid; place-items: center; overflow: hidden; transition: transform .1s; }
+.act:active { transform: scale(.95); }
+.act:disabled { cursor: default; }
+.act img { width: 100px; height: 100px; object-fit: contain; }
+.dim { opacity: .45; }
+
+/* кнопки */
+.btn { height: 64px; padding: 0 16px; border-radius: 100px; display: flex; align-items: center; justify-content: center; white-space: nowrap; transition: transform .1s; }
+.btn:active { transform: scale(.97); }
+.btn-primary { background: var(--red-grad); color: var(--white); }
+.btn-peach { background: var(--peach); color: var(--ink); }
+.btn-white { background: var(--white); color: var(--ink); height: 40px; }
+.btn-secondary { color: var(--red); text-decoration: underline; }
+.btn.fill { flex: 1 1 0; min-width: 0; }
+
+/* нижний лист */
+.sheet { position: absolute; left: 0; bottom: 0; width: 393px; min-height: 300px; background: var(--cream); border-radius: 24px 24px 0 0;
+  padding: 24px 16px 32px; display: flex; flex-direction: column; justify-content: space-between; gap: 16px; animation: up .35s cubic-bezier(.2,.9,.3,1); }
+@keyframes up { from { transform: translateY(100%); } }
+.sheet-body { display: flex; flex-direction: column; gap: 12px; }
+.row { display: flex; gap: 8px; width: 100%; }
+.choice { width: 76px; height: 48px; border-radius: 16px; border: 1px solid var(--red); display: grid; place-items: center; }
+.choice.on { background: var(--red); color: #fff; }
+.field { width: 100%; border: 2px solid #f2c9a6; background: var(--white); border-radius: 16px; padding: 14px 16px; font: inherit; font-size: 16px; color: var(--ink); outline: none; }
+.field::placeholder { color: #8a7a70; }
+textarea.field { height: 112px; resize: none; }
+.lvlbadge { position: relative; align-self: flex-start; padding: 12px; border-radius: 16px; background: var(--violet-grad); color: var(--white); width: 238px; }
+.lvlbadge .heart { position: absolute; right: -14px; top: -32px; width: 53px; height: 53px; transform: rotate(24deg); }
+.lvlbadge .n { position: absolute; right: -8px; top: -16px; width: 44px; text-align: center; transform: rotate(24deg); }
+
+/* модалки */
+.overlay { position: absolute; inset: 0; background: var(--overlay); animation: fade .2s; }
+@keyframes fade { from { opacity: 0; } }
+.modal { position: absolute; left: 16px; width: 361px; padding: 24px 16px; border-radius: 24px; background: var(--cream); display: flex; flex-direction: column; gap: 16px; animation: pop .25s cubic-bezier(.2,.9,.3,1.2); }
+@keyframes pop { from { transform: scale(.9); opacity: 0; } }
+.modal-head { display: flex; justify-content: space-between; align-items: center; }
+.close { width: 32px; height: 32px; }
+.close img { width: 32px; height: 32px; }
+.mini-stats { display: flex; gap: 8px; }
+.mini-stats .stat .track { width: 83px; }
+.mini-stats .stat .fill { width: 24px; }
+.mini-acts { display: flex; gap: 8px; }
+.mini-acts .act { width: 104px; height: 104px; border-radius: 22px; }
+.mini-acts .act img { width: 89px; height: 89px; }
+
+/* подсказка подарка */
+.tip { position: absolute; left: 86px; top: 80px; width: 221px; padding: 16px; border-radius: 24px; display: flex; flex-direction: column; gap: 16px; animation: pop .25s; }
+.tip.claim { background: var(--red-grad); color: var(--white); }
+.tip.timer { background: #fff; color: var(--ink); left: 56px; width: 281px; }
+.tip p { margin: 0; }
+.tip .t2 { font-weight: 500; font-size: 14px; line-height: 1.3; }
+
+/* бабл */
+.bubble { position: absolute; left: 50%; transform: translateX(-50%); max-width: 361px; width: max-content; padding: 12px 16px; border-radius: 16px; background: var(--white); color: var(--gray); text-align: center; animation: fade .25s; }
+.bubble .tail { position: absolute; left: 50%; bottom: -8px; width: 16px; height: 8px; transform: translateX(-50%) rotate(180deg); }
+
+/* страницы */
+.page { position: absolute; inset: 0; background: var(--cream); }
+.page-head { position: absolute; left: 16px; top: 40px; width: 361px; display: flex; justify-content: space-between; align-items: flex-start; }
+.promo { position: absolute; left: 16px; top: 88px; width: 361px; padding: 16px; border-radius: 24px; background: var(--violet-grad); color: var(--white); display: flex; flex-direction: column; gap: 8px; }
+.promo p { margin: 0; }
+.lb-head { position: absolute; left: 0; top: 217px; width: 393px; padding: 0 16px; display: flex; gap: 12px; color: var(--gray); font-weight: 500; font-size: 12px; line-height: 1.3; }
+.lb-list { position: absolute; left: 0; top: 241px; bottom: 56px; width: 393px; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
+.lb-row { position: relative; flex: none; height: 48px; padding: 0 16px; display: flex; gap: 12px; align-items: center; }
+.lb-row .rank { width: 46px; text-align: center; position: relative; }
+.lb-row .rank img { position: absolute; left: -2px; top: -15px; width: 48px; height: 48px; }
+.lb-row .rank b { position: relative; }
+.lb-row.prize .rank b { color: var(--white); }
+.lb-row .name { flex: 1; }
+.lb-me { position: absolute; left: 0; bottom: 0; width: 393px; height: 52px; padding: 0 16px; display: flex; gap: 12px; align-items: center; background: var(--violet); color: #fff; border-radius: 16px 16px 0 0; }
+.faq { position: absolute; left: 16px; top: 128px; width: 361px; display: flex; flex-direction: column; gap: 8px; }
+.faq-item { background: var(--peach); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 8px; text-align: left; }
+.faq-q { display: flex; gap: 8px; align-items: center; }
+.faq-q span { flex: 1; }
+.pm { position: relative; width: 24px; height: 24px; flex: none; }
+.pm::before, .pm::after { content: ""; position: absolute; background: var(--red); border-radius: 1px; left: 5px; top: 11px; width: 14px; height: 2px; }
+.pm::after { left: 11px; top: 5px; width: 2px; height: 14px; }
+.pm.open::after { display: none; }
+
+/* вход */
+.auth-panel { position: absolute; left: 0; top: 522px; width: 393px; height: 330px; background: var(--white); border-radius: 24px 24px 0 0; }
+.auth-text { position: absolute; left: 16px; width: 361px; text-align: center; margin: 0; }
+.bottom-btn { position: absolute; left: 16px; top: 756px; width: 361px; }
+
+/* «+10» */
+/* шрифт и размер — как у числа в плашке очков (.t-title); золотой градиент, белая обводка и тень — как у стикеров «пуфа» */
+.plus { position: absolute; z-index: 20; pointer-events: none; white-space: nowrap;
+  color: #fff; -webkit-text-stroke: 6px #fff; paint-order: stroke fill; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, .25)); }
+.plus::after { content: attr(data-t); position: absolute; inset: 0; -webkit-text-stroke: 0;
+  background-image: linear-gradient(180deg, #ffd84a, #f39a00); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* храп во сне: «z z Z» всплывают от головы в такт дыханию (цикл ролика сна — 3 с).
+   Градиент как у плашки «Новый уровень», белая обводка и тень — как у стикеров «пуфа» */
+.snore { position: absolute; left: 262px; top: 258px; pointer-events: none; }
+.snore i { position: absolute; font: 900 46px/1 ui-rounded, "SF Pro Rounded", "Arial Rounded MT Bold", system-ui, sans-serif; font-style: normal;
+  color: #fff; -webkit-text-stroke: 12px #fff; paint-order: stroke fill; stroke-linejoin: round;   /* белая подложка-обводка */
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, .25)); opacity: 0; animation: snore 3s ease-out infinite; }
+.snore i::after { content: attr(data-z); position: absolute; inset: 0; -webkit-text-stroke: 3px transparent;   /* градиентная буква сверху */
+  background: var(--violet-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.snore i:nth-child(2) { font-size: 58px; animation-delay: 1s; }
+.snore i:nth-child(3) { font-size: 72px; animation-delay: 2s; }
+@keyframes snore {
+  0% { opacity: 0; transform: translate(0, 0) rotate(-10deg) scale(.6); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: translate(30px, -56px) rotate(12deg) scale(1.05); }
+}
+
+/* выбор флоу для теста — поверх, в левом верхнем углу окна */
+.flows { position: fixed; top: 12px; left: 12px; z-index: 10; display: flex; flex-direction: column; gap: 4px;
+  font: 500 13px/1 system-ui, sans-serif; }
+.flows a { padding: 8px 12px; border-radius: 8px; background: rgba(0, 0, 0, .55); color: #fff; text-decoration: none; }
+.flows a.on { background: #ef3124; }
+.flows button { padding: 8px 12px; border: 0; border-radius: 8px; background: rgba(0, 0, 0, .55); color: #fff; font: inherit; text-align: left; cursor: pointer; }
+.flows hr { width: 100%; border: 0; border-top: 1px solid rgba(255, 255, 255, .3); margin: 4px 0; }
+.flows span { padding: 4px 2px; color: #fff; opacity: .8; }

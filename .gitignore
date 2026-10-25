@@ -1,0 +1,9 @@
+node_modules
+dist
+.DS_Store
+*.tsbuildinfo
+# шрифт Styrene лицензионный — не коммитим
+*.otf
+*.ttf
+*.woff
+*.woff2
