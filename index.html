@@ -397,7 +397,7 @@ label.ck input{accent-color:var(--lime);width:18px;height:18px;flex:none;margin-
 [data-th=g3] .scr{background:radial-gradient(circle at 20px 30px,#fff9 1px,transparent 1.5px) 0 0/57px 61px,radial-gradient(circle at 40px 10px,#fff6 1px,transparent 1.5px) 0 0/89px 73px,linear-gradient(#0d1230,#151c4a 70%,#1f2a63)}
 [data-th=g3] .res,[data-th=g3] .tech{border-radius:0;background:#161d45;box-shadow:0 0 0 3px #0a0e26,0 0 0 6px #3a4a9a,6px 6px 0 6px #05081a;margin:6px}
 [data-th=g3] .tech{border-left:0;background:#20295c}
-h2.goal{text-align:center}
+
 .hud{display:flex;align-items:center;gap:10px;justify-content:space-between}
 [data-th=g3] .hud .ings{gap:5px}
 [data-th=g3] .ings span{width:46px;height:46px;background:#0a0e26;box-shadow:inset 0 0 0 2px #2d3874}
@@ -439,7 +439,7 @@ h2.goal{text-align:center}
 .perfect{font-size:15px}
 .p3 b{font-family:"Russo One",sans-serif;font-weight:400;font-size:24px}
 [data-th=g3] .boards{flex-direction:column;align-items:center;gap:12px}
-[data-th=g3] .bd{flex:none;width:clamp(170px,calc((100cqh - 330px) / 2 - 40px),100%)}
+[data-th=g3] .bd{flex:none;width:clamp(100px,calc((100cqh - 354px) / 2),100%)}
 [data-th=g3] .pad{grid-template-rows:repeat(2,50px)}
 [data-th=g3] .pad button{font-family:"Russo One",sans-serif;font-size:22px}
 [data-th=g3] .pad .aux{background:#161d45;color:#9aa6e0;font-size:20px}
@@ -463,7 +463,7 @@ h2.goal{text-align:center}
 /* === десктоп в первую очередь: колонки на мобильном «прозрачны» === */
 .col{display:contents}
 .scr>.top{order:-3}.scr>.tag{order:-2}
-.s-lvl .goal,.s-lvl .hud{order:-1}
+.s-lvl .hud{order:-1}
 .side,.kb{display:none}
 @media (min-width:900px){
  body{overflow:hidden}
@@ -526,7 +526,7 @@ h2.goal{text-align:center}
  .s-lvl .c3{grid-column:2}
  [data-th=g3] .s-lvl .boards{flex-direction:row;gap:24px}
  [data-th=g3] .s-lvl .bd{width:clamp(240px,calc(100cqh - 200px),400px)}
- .s-lvl .goal{text-align:left;font-size:24px!important}
+
  .s-lvl .hud{flex-direction:column;align-items:stretch}
  .s-lvl .hud .ings{justify-content:flex-start;flex-wrap:wrap}
  .s-lvl .mc3{flex-direction:row;justify-content:space-between;gap:8px;padding:8px 12px}
@@ -543,6 +543,19 @@ body{background:#0d0f1e}
 body[data-th=g1]{background:linear-gradient(#0b0e24cc,#0b0e24cc),url(assets/g1/bg_wide.jpg) center/cover,#141833}
 body[data-th=g2]{background:linear-gradient(#0008,#0008),url(assets/g2/wallpaper_wide.jpg) center/cover,#1c1550}
 body[data-th=g3]{background:#070a1c}
+
+/* === 3: компактная шапка уровня, правила в модалке === */
+.top .tag{margin-left:auto;align-self:center}
+.top .tb{display:grid;place-items:center;width:38px;height:34px;padding:0!important;margin-left:6px;background:#161d45!important;color:#cfd8ff!important;box-shadow:inset 0 0 0 2px #2d3874}
+.top .tb svg{width:20px;height:20px}
+[data-th=g3] .ings span.cur{box-shadow:inset 0 0 0 2px #fff;opacity:1}
+.m3{position:absolute;inset:0;z-index:20;display:grid;place-items:center;padding:18px;background:#05081acc;animation:in .25s ease}
+.m3b{width:min(100%,380px);background:#0d1230;box-shadow:0 0 0 3px #b8e600,0 20px 60px #000;padding:20px;display:flex;flex-direction:column;gap:12px}
+.m3b h2{margin:0;text-align:center}
+.m3b p{margin:0;display:flex;align-items:center;gap:10px;font-size:15px;line-height:1.35}
+.m3b p img{width:32px;height:32px;object-fit:contain;image-rendering:pixelated;flex:none}
+.m3b .mut{display:block;font-size:14px}
+html,body{overscroll-behavior:none}
 </style>
 </head>
 <body>
@@ -563,7 +576,7 @@ const h=(html)=>{app.dataset.th=TH;document.body.dataset.th=TH;app.innerHTML=htm
  if(TH==='g2')app.insertAdjacentHTML('beforeend',`<div class="taskbar"><button class="start" onclick="toast('Пуск: тут пока пусто')"><img src="assets/g2/snow.png" alt="" style="width:16px;height:16px;vertical-align:-3px;image-rendering:pixelated"> Пуск</button><span class="task" id="task">${G2.task}</span><span class="clk" id="clk">23:59</span></div>`)};
 function snow(){const s=document.createElement('div');s.className='snow';for(let i=0;i<22;i++){const e=document.createElement('i');e.style.left=Math.random()*100+'%';e.style.animationDuration=6+Math.random()*8+'s';e.style.animationDelay=-Math.random()*10+'s';e.style.transform=`scale(${.5+Math.random()})`;s.appendChild(e)}app.prepend(s)}
 function toast(t){const e=document.createElement('div');e.className='toast';e.textContent=t;app.appendChild(e);setTimeout(()=>e.remove(),1800)}
-const hdr=(t)=>`<div class="top"><button onclick="hub()">← Все концепции</button></div>${t?`<span class="tag">${t}</span>`:''}`;
+const hdr=(t,x='')=>`<div class="top"><button onclick="hub()">← Все концепции</button>${x}</div>${t?`<span class="tag">${t}</span>`:''}`;
 
 /* ---------- ХАБ ---------- */
 function hub(){TH='';h(`<div class="scr s-hub">
@@ -785,14 +798,19 @@ function g3(){TH='g3';G3={lv:0,got:[]};h(`<div class="scr dg s-g3i">${hdr('Ко�
 function cellOf(g,c){for(let r=0;r<g.length;r++){const i=g[r].indexOf(c);if(i>=0)return[r,i]}}
 function lvl(){const L=LV[G3.lv];G3.A=cellOf(L.a,'S');G3.B=cellOf(L.b,'S');G3.hist=[];G3.moves=0;
  const grid=(g,kind)=>`<div class="grid ${kind}" style="grid-template-columns:repeat(${g[0].length},1fr)">${g.join('').split('').map(c=>`<div class="cell ${c=='#'?'w':c=='T'?'t':''}"></div>`).join('')}</div>`;
- h(`<div class="scr dg s-lvl">${hdr(`Раскладка ${G3.lv+1} из ${LV.length}`)}
- <div class="col c2"><h2 class="goal">Доставь ${L.acc||L.n.toLowerCase()} к столу</h2>
- <div class="hud"><div class="ings">${LV.map((l,i)=>`<span class="${G3.got.includes(i)?'on':''}" title="${l.n}">${ING(l.ing)}</span>`).join('')}<span title="Оливье">${ING('olivier')}</span></div><div class="mc3"><small>ходы</small><b id="mcn">0</b><small>цель ${L.min}</small></div></div></div>
+ h(`<div class="scr dg s-lvl">${hdr('',`<span class="tag">Раскладка ${G3.lv+1}/${LV.length}</span><button class="tb" onclick="undo()" aria-label="Ход назад" title="Ход назад">${svg(`<path d="M9 14L4 9l5-5" ${ST}/><path d="M4 9h10a6 6 0 0 1 0 12h-3" ${ST}/>`)}</button><button class="tb" onclick="lvl()" aria-label="Заново" title="Заново">${svg(`<path d="M20 12a8 8 0 1 1-2.3-5.6" ${ST}/><path d="M20 4v5h-5" ${ST}/>`)}</button>`)}
+ <div class="col c2">
+ <div class="hud"><div class="ings">${LV.map((l,i)=>`<span class="${G3.got.includes(i)?'on':''}${i===G3.lv?' cur':''}" title="${l.n}">${ING(l.ing)}</span>`).join('')}<span title="Оливье">${ING('olivier')}</span></div><div class="mc3"><small>ходы</small><b id="mcn">0</b><small>цель ${L.min}</small></div></div></div>
  <div class="col c1"><div class="boards" id="boards"><div class="bd"><div class="cap"><img src="assets/g3/packet.png" alt="">Цифровая система</div>${grid(L.a,'d')}</div><div class="bd"><div class="cap"><img src="assets/g3/cart.png" alt="">Склад и доставка</div>${grid(L.b,'w')}</div></div></div>
- <div class="col c3"><div class="pad"><button class="aux" onclick="undo()" aria-label="Ход назад" title="Ход назад">${svg(`<path d="M9 14L4 9l5-5" ${ST}/><path d="M4 9h10a6 6 0 0 1 0 12h-3" ${ST}/>`)}</button><button onclick="mv('U')" aria-label="Вверх">↑</button><button class="aux" onclick="lvl()" aria-label="Заново" title="Заново">${svg(`<path d="M20 12a8 8 0 1 1-2.3-5.6" ${ST}/><path d="M20 4v5h-5" ${ST}/>`)}</button><button onclick="mv('L')" aria-label="Влево">←</button><button onclick="mv('D')" aria-label="Вниз">↓</button><button onclick="mv('R')" aria-label="Вправо">→</button></div><p class="mut kb">Стрелки на клавиатуре тоже работают</p></div></div>`);
- if(G3.banner!==G3.lv){G3.banner=G3.lv;banner(`Раскладка ${G3.lv+1}`)}
+ <div class="col c3"><div class="pad"><span></span><button onclick="mv('U')" aria-label="Вверх">↑</button><span></span><button onclick="mv('L')" aria-label="Влево">←</button><button onclick="mv('D')" aria-label="Вниз">↓</button><button onclick="mv('R')" aria-label="Вправо">→</button></div><p class="mut kb">Стрелки на клавиатуре тоже работают</p></div></div>`);
+ if(!G3.help){G3.help=1;help3()}else if(G3.banner!==G3.lv){G3.banner=G3.lv;banner(`Раскладка ${G3.lv+1}`)}
  document.querySelectorAll('.grid').forEach((g,i)=>{const t=document.createElement('div');t.className='tok';t.id='tk'+i;t.innerHTML=ING(i?'cart':'packet');g.appendChild(t)});
- place();let sx,sy;const b=$('#boards');b.onpointerdown=e=>{sx=e.clientX;sy=e.clientY};b.onpointerup=e=>{const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.max(Math.abs(dx),Math.abs(dy))<25)return;mv(Math.abs(dx)>Math.abs(dy)?(dx>0?'R':'L'):(dy>0?'D':'U'))};b.style.touchAction='none'}
+ place();let sx,sy;const b=$('#boards');b.onpointerdown=e=>{sx=e.clientX;sy=e.clientY};b.onpointerup=e=>{const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.max(Math.abs(dx),Math.abs(dy))<25)return;mv(Math.abs(dx)>Math.abs(dy)?(dx>0?'R':'L'):(dy>0?'D':'U'))};b.style.touchAction='none';['touchstart','touchmove'].forEach(t=>b.addEventListener(t,e=>e.preventDefault(),{passive:false}))}
+function help3(){app.insertAdjacentHTML('beforeend',`<div class="m3"><div class="m3b"><h2>Как играть</h2>
+ <p><img src="assets/g3/packet.png" alt=""> <span><b>Запрос</b> идёт по цифровой системе</span></p>
+ <p><img src="assets/g3/cart.png" alt=""> <span><b>Корзина</b> едет по складу</span></p>
+ <p class="mut">Одно нажатие двигает обоих. Упёрся в стену — стоит, второй едет дальше. Приведи обоих к финишу одновременно.</p>
+ <button class="btn" onclick="this.closest('.m3').remove();G3.banner=G3.lv;banner('Раскладка '+(G3.lv+1))">Поехали</button></div></div>`)}
 function place(){[G3.A,G3.B].forEach((p,i)=>{const g=document.querySelectorAll('.grid')[i],c=g.children[0],t=$('#tk'+i),n=LV[G3.lv].a[0].length,cs=c.offsetWidth+3;t.style.width=t.style.height=c.offsetWidth+'px';t.style.left=p[1]*cs+'px';t.style.top=p[0]*cs+'px'})}
 function step(g,p,d){const r=p[0]+d[0],c=p[1]+d[1];return(r<0||c<0||r>=g.length||c>=g[0].length||g[r][c]=='#')?p:[r,c]}
 function mv(k){if(!G3.A||G3.done)return;const L=LV[G3.lv],d=DIR[k];G3.hist.push([G3.A,G3.B]);
